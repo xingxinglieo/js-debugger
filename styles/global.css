@@ -1,0 +1,53 @@
+.center {
+  @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+}
+
+.all-full {
+  @apply w-full h-full;
+}
+
+.all-screen {
+  @apply w-screen h-screen;
+}
+
+.line-ellipsis {
+  @apply text-ellipsis overflow-hidden whitespace-nowrap;
+}
+
+.button-main {
+  @apply rounded-md py-1.5 px-2 transition text-white bg-indigo-600 hover:bg-indigo-700;
+}
+
+.button-side {
+  @apply rounded-md py-1.5 px-2 text-indigo-700 bg-indigo-100 hover:bg-indigo-200 transition;
+}
+
+.tooltip-content {
+  @apply px-2 py-1.5 text-sm leading-4 font-normal rounded-md pointer-events-none break-words bg-white text-neutral-900 transition;
+  box-shadow: rgba(14, 18, 22, 0.8) 0px 10px 38px -10px,
+    rgba(14, 18, 22, 0.7) 0px 10px 20px -15px;
+}
+/* 滚动条美化 start */
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+  background-color: #f5f5f5;
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #f5f5f5;
+}
+
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: #c8c8c8;
+}
+/* 滚动条美化 end */
