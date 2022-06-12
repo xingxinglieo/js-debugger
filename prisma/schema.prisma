@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Question {
+  id         Int        @id @default(autoincrement()) // 唯一id
+  createTime DateTime   @default(now()) // 创建时间
+  title      String // 题目
+  content    String // 内容
+  difficulty Int // 难度 1-4 入门 简单 中等 困难 
+  categories Category[] // 分类 n-1 关系
+  samples    Sample[] // 输入输出例子 1-n 关系
+  problem    Problem? // 具体代码题目 1-1 关系
+}
+
+model Sample {
+  id         Int      @id @default(autoincrement()) // 唯一id
+  input      String // 输入
+  note       String // 解释
+  output     String // 输出
+  question   Question @relation(fields: [questionId], references: [id]) // 外键
+  questionId Int
+}
+
+model Category {
+  id        Int        @id @default(autoincrement()) // 唯一id
+  name      String     @unique // 分类名
+  questions Question[] // 关联外键 Question 表
+}
+
+model Problem {
+  id                   Int           @id @default(autoincrement()) // 唯一id
+  createTime           DateTime      @default(now()) // 创建时间
+  question             Question      @relation(fields: [questionId], references: [id]) // 关联外键 Qustion 表
+  questionId           Int           @unique // 题目id
+  template             String // 默认显示的模板
+  callee               String // 调用函数名
+  cases                ProblemCase[] // 测试用例
+  injects              Inject[] // 函数注入 
+  answerInjectId       Int // 答案函数注入
+  inputFormatInjectId  Int
+  outputFormatInjectId Int
+  testInjectId         Int // 测试函数注入 的 id
+}
+
+model Inject {
+  id          Int      @id @default(autoincrement())
+  content     String //注入的内容
+  description String // 描述
+  callee      String // 函数/类 名
+  Problem     Problem? @relation(fields: [problemId], references: [id])
+  problemId   Int?
+}
+
+model ProblemCase {
+  id        Int     @id @default(autoincrement()) // 唯一id
+  problem   Problem @relation(fields: [problemId], references: [id]) // 外键 Problem 表
+  problemId Int // 题目id
+
+  input String // 输入
+}
+
+// }

@@ -1,0 +1,7 @@
+img[src*='equation'] {
+  display: inline-block;
+  /* height: 18px; */
+}
+pre {
+  font-family: Courier, 'Courier New', monospace;
+}

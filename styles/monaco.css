@@ -1,0 +1,21 @@
+.breakpoints {
+  background: red;
+  width: 8px !important;
+  height: 8px !important;
+  left: 10px !important;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 4px;
+}
+.debugger-range {
+  background: rgba(255, 255, 255, 0.3);
+}
+.line-numbers {
+  cursor: pointer !important;
+}
+.string-value {
+  font-family: system-ui;
+}
+.react-json-view{
+  @apply text-xs
+}
