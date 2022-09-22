@@ -12,19 +12,20 @@ FROM base as deps
 RUN mkdir /app
 WORKDIR /app
 
-RUN npm install pnpm -g
-ADD package.json pnpm-lock.yaml ./
-RUN pnpm install --production=false
+ADD package.json ./
+RUN npm install --production=false
 
 # Setup production node_modules
-FROM base as production-deps
+# FROM base as production-deps
 
-RUN mkdir /app
-WORKDIR /app
+# RUN mkdir /app
+# WORKDIR /app
 
-COPY --from=deps /app/node_modules /app/node_modules
-ADD package.json pnpm-lock.yaml ./
-RUN npm prune --production
+# COPY --from=deps /app/node_modules /app/node_modules
+# ADD package.json pnpm-lock.yaml ./
+# ADD package.json ./
+# RUN npm install pnpm -g
+# RUN npm prune --production
 
 # Build the app
 FROM base as build
@@ -34,10 +35,12 @@ WORKDIR /app
 
 COPY --from=deps /app/node_modules /app/node_modules
 
-ADD prisma .
-RUN npx prisma generate
+ADD package.json .
+ADD prisma ./prisma
+RUN npm run db
 
 ADD . .
+# RUN npm install pnpm -g
 RUN npm run build
 
 # Finally, build the production image with minimal footprint
@@ -48,8 +51,8 @@ ENV NODE_ENV production
 RUN mkdir /app
 WORKDIR /app
 
-COPY --from=production-deps /app/node_modules /app/node_modules
-# COPY --from=build /app/node_modules/.prisma /app/node_modules/.prisma
+COPY --from=deps /app/node_modules /app/node_modules
+COPY --from=build /app/node_modules/.prisma /app/node_modules/.prisma
 COPY --from=build /app/build /app/build
 COPY --from=build /app/public /app/public
 COPY --from=build /app/prisma /app/prisma

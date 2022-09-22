@@ -88,6 +88,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     }
   } catch (e) {
     console.log(e);
+    return e;
   }
   // return redirect("/404");
 };
